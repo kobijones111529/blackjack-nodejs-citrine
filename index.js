@@ -37,13 +37,19 @@ function dealCard(deck) {
 
 
 function playerTurn(hand) {
-  console.log('Your hand is', hand)
-  let action = prompt('Hit or stay?: ')
 
-  while (action === 'hit') {
-    hand.push(dealCard(deck))
+  while (valueOfHand(hand) < 21) {
     console.log('Your hand is', hand)
-    action = prompt('Hit or stay?: ')
+    let action = prompt('Hit or stay?: ')
+    if (action !== 'hit') {
+      break
+    }
+
+    hand.push(dealCard(deck))
+  }
+
+  if (valueOfHand(hand) > 21) {
+    console.log('Bust!')
   }
 
   return valueOfHand(hand)
@@ -56,22 +62,13 @@ function dealerTurn(hand) {
   return valueOfHand(hand)
 }
 
-function winner(playerHandValue, dealerHandValue) {
-  if (playerHandValue > 21) {
-    return 'Player bust'
+function round(playerMoney) {
+  let bet = Number(prompt(`Place your bet (you have $${playerMoney}): `))
+  while (Number.isNaN(bet) || bet > playerMoney) {
+    console.log('Invalid bet')
+    bet = Number(prompt(`Place your bet (you have $${playerMoney}): `))
   }
 
-  if (playerHandValue > dealerHandValue) {
-    return 'Player wins'
-  } else if (dealerHandValue > playerHandValue) {
-    return 'Dealer wins'
-  } else {
-    return 'Draw'
-  }
-}
-
-
-function round() {
   const playersHand = [dealCard(deck), dealCard(deck)]
   const dealersHand = [dealCard(deck), dealCard(deck)]
 
@@ -81,16 +78,40 @@ function round() {
   console.log('Player hand value:', playerHandValue)
   console.log('Dealer hand value:', dealerHandValue)
 
-  const roundWinner = winner(playerHandValue, dealerHandValue)
-  console.log(roundWinner)
+  if (playerHandValue > 21) {
+    console.log('Player bust!')
+    playerMoney -= bet
+  } else if (playerHandValue === 21) {
+    console.log('Blackjack!')
+    playerMoney += bet * 1.5
+  } else if (dealerHandValue > 21 || playerHandValue > dealerHandValue) {
+    console.log('Player wins!')
+    playerMoney += bet
+  } else if (dealerHandValue > playerHandValue) {
+    console.log('Dealer wins')
+    playerMoney -= bet
+  } else {
+    console.log('Push')
+  }
+
+  return playerMoney
 }
 
 function game() {
+  let playerMoney = 100
+
   let playing = true
   while (playing) {
-    round()
-    const playAgain = prompt('Play again? (y/n): ')
-    playing = playAgain === 'y'
+    playerMoney = round(playerMoney)
+
+    console.log(`You have $${playerMoney}`)
+    if (playerMoney <= 0) {
+      console.log('Go home')
+      playing = false
+    } else {
+      const playAgain = prompt('Play again? (y/n): ')
+      playing = playAgain === 'y'
+    }
   }
 }
 
