@@ -1,0 +1,14 @@
+{
+  "name": "blackjack-nodejs-citrine",
+  "version": "1.0.0",
+  "description": "- Start with a single suite (1-13, 4 of each) - { name: <string>, value: <int> } -",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}
