@@ -15,10 +15,25 @@ function valueOfCard(number) {
   }
 }
 
+function symbolOfCard(number) {
+  switch (number) {
+    case 1:
+      return 'Ace'
+    case 11: return 'Jack'
+    case 12: return 'Queen'
+    case 13: return 'King'
+    default: return `${number}`
+  }
+}
+
+function displayHand(hand) {
+  return hand.map(number => symbolOfCard(number))
+}
+
 function valueOfHand(cards) {
   let sum = 0;
   for (const card of cards) {
-    sum += card
+    sum += valueOfCard(card)
   }
   return sum
 }
@@ -32,14 +47,13 @@ function dealCard(deck) {
   const card = filteredDeck[index - 1]
   card.count--
 
-  return valueOfCard(card.number)
+  return card.number
 }
-
 
 function playerTurn(hand) {
 
   while (valueOfHand(hand) < 21) {
-    console.log('Your hand is', hand)
+    console.log('Your hand is', displayHand(hand))
     let action = prompt('Hit or stay?: ')
     if (action !== 'hit') {
       break
