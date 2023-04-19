@@ -7,7 +7,8 @@ A simple command line blackjack game written in NodeJS.
 - [x] Deal cards from a deck
 - [x] 'Hit' until you have a winning hand (or bust)
 - [x] Compete against the dealer
-- [ ] Bet on hands
+- [x] Bet on hands
+- [ ] Show dealer's cards
 - [ ] Play with multiple players
 - [ ] Reshuffle deck
 - [ ] Lots of other stuff
